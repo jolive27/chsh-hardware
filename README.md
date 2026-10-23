@@ -1,6 +1,6 @@
 # CHSH Bell test on IBM quantum hardware
 
-I run the CHSH game every night on IBM's `ibm_kingston`, on two qubit pairs.
+I run the CHSH game from my raspberry pi every night using cron on IBM's `ibm_kingston`, on two qubit pairs.
 Pair 109-118 beats the classical limit every run. Pair 0-1 never does, and the
 per-run data points to a bias on qubit 0 that IBM's calibration never reported.
 
@@ -30,6 +30,7 @@ a XOR b = x AND y. Each run plays all four (x, y) settings, 4,000 shots each.
 | Oct 22, 3:00 AM | 0.574 | 0.840 | **0.82** | 0.47 | 0.6% | 0.1% |
 | Oct 23, 3:00 AM | 0.556 | 0.834 | **0.84** | 0.48 | 1.0% | 0.3% |
 
+- No idea why IBM reported qubit 1 misreading 0 as 1 on Oct,21 70% of time, assuming some kind of error.
 - Qubit 0 reads 1 too often in every run, and pair 0-1's win rate drops as the bias grows.
 - IBM's calibration (the one in effect at each run) reported qubit 0 as near-perfect every time.
 - Pair 109-118's qubits read 1 between 0.47 and 0.51 in every run.
@@ -44,7 +45,7 @@ a XOR b = x AND y. Each run plays all four (x, y) settings, 4,000 shots each.
 ## Open questions
 - Is qubit 0's bias in readout, or in the state before measurement? Next step: readout-test circuits in every run.
 - A rough readout-only estimate leaves about 0.05 of the drop unexplained. Two-qubit gate error?
-- How fast does the bias drift? IBM's roughly daily calibrations can't resolve it.
+- How fast does the bias drift? IBM's roughly daily calibrations can't resolve it (too much change between calibrations to predict).
 
 ## How it runs
 | When | Script | What it does |
