@@ -29,7 +29,7 @@ for x in (0, 1):
     for y in (0, 1):
         counts = sim.run(transpile(chsh_circuit(x, y), sim), shots=4000).result().get_counts()
         rates.append(win_rate(counts, x, y))
-print("win rate:", np.mean(rates))   # classical limit 0.75, quantum about 0.854
+print("win rate:", np.mean(rates))   # classical limit 0.75, quantum limit around 0.854
 
 from qiskit.transpiler import generate_preset_pass_manager
 from qiskit_ibm_runtime import SamplerV2 as Sampler
