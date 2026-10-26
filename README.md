@@ -1,7 +1,6 @@
 # CHSH Bell test on IBM quantum hardware
 
-I run the CHSH game from my raspberry pi every night using cron on IBM's `ibm_kingston`, on two qubit pairs.
-Pair 109-118 beats the classical limit every run. Pair 0-1 never does, and the
+I run the CHSH game from my raspberry pi every night using cron on IBM's `ibm_kingston`, on two qubit pairs with help from IBM's own documentation. Pair 109-118 beats the classical limit every run (healthy pair). Pair 0-1 never does (unhealthy pair), and the
 per-run data points to a bias on qubit 0 that IBM's calibration never reported.
 
 ## The game
@@ -39,7 +38,7 @@ a XOR b = x AND y. Each run plays all four (x, y) settings, 4,000 shots each.
 | Date | Hypothesis | Evidence | Status |
 |---|---|---|---|
 | Oct 19 | Pair 0-1 underperforms its calibration | ~0.63 on hardware vs ~0.82 in a noisy simulation | Confirmed |
-| Oct 21 | Qubit 1's readout is the cause | Live calibration showed qubit 1 misreading 69% of 0s; predicted ~0.56, Oct 22 measured 0.574 | Rejected: the calibration in effect before the Oct 22 run had qubit 1 healthy, so the match was timing |
+| Oct 21 | Qubit 1's readout is the cause | Live calibration showed qubit 1 misreading 69% of 0s; predicted ~0.56, Oct 22 measured 0.574 | Rejected: the calibration in effect before the Oct 22 run had qubit 1 healthy, so must've been bad timing |
 | Oct 23 | Qubit 0 is biased toward reading 1 | Qubit 0 reads 1 59–84% of the time in every run; win rate tracks it | Current |
 
 ## Open questions
