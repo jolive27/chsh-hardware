@@ -31,7 +31,7 @@ Make a free account at quantum.cloud.ibm.com. You get 10 free minutes a month on
 Grab your API key and instance CRN off the dashboard and save them once by running:
 
 ```
-python -c "from qiskit_ibm_runtime import QiskitRuntimeService; QiskitRuntimeService.save_account(token=
+python -c "from qiskit_ibm_runtime import QiskitRuntimeService; QiskitRuntimeService.save_account(token='PASTE_YOUR_API_KEY', instance='YOUR_CRN')"
 ```
 
 No CRN on the page? `instance='ibm-q/open/main'` works too. This is the last annoying step.
