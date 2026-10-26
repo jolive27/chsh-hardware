@@ -43,6 +43,7 @@ a XOR b = x AND y. Each run plays all four (x, y) settings, 4,000 shots each.
 | Oct 23 | Qubit 0 is biased toward reading 1 | Qubit 0 reads 1 59–84% of the time in every run; win rate tracks it | Current |
 
 ## Open questions
+- I feel like I am missing something through naivety so I need to figure out what I am missing.
 - Is qubit 0's bias in readout, or in the state before measurement? Next step: readout-test circuits in every run.
 - A rough readout-only estimate leaves about 0.05 of the drop unexplained. Two-qubit gate error?
 - How fast does the bias drift? IBM's roughly daily calibrations can't resolve it (too much change between calibrations to predict).
