@@ -1,7 +1,8 @@
 # CHSH Bell test on IBM quantum hardware
 
-I run the CHSH game from my raspberry pi every night using cron on IBM's `ibm_kingston`, on two qubit pairs with help from IBM's own documentation. Pair 109-118 beats the classical limit every run (healthy pair). Pair 0-1 never does (unhealthy pair), and the
-per-run data points to a bias on qubit 0 that IBM's calibration never reported.
+I run the CHSH game from my raspberry pi every night using cron on IBM's `ibm_kingston`, on two qubit pairs with help from IBM's own documentation.
+
+The two pairs chosen (0, 1) and (109, 118) turned to be the real experiment: 109-118 stayed healthy the whole time (picked from IBM's own calibration data at the start), 0-1 was "broken" for a week in a way that could be diagnosed from IBM's own data. It then recovered after recalibration.
 
 ## The game
 | Strategy | Best possible win rate |
@@ -9,52 +10,119 @@ per-run data points to a bias on qubit 0 that IBM's calibration never reported.
 | Classical | 0.75 |
 | Quantum (entangled qubits) | cos²(π/8) ≈ 0.854 |
 
-Alice and Bob get random bits x and y and answer a and b. They win if
-a XOR b = x AND y. Each run plays all four (x, y) settings, 4,000 shots each.
+Alice and Bob (the two qubits in a pair, classically named Alice and Bob for whatever reason) get random bits x and y and answer a and b. They win if a XOR b = x AND y. Each run plays all four (x, y) settings, 4,000 shots each.
 
-## Results at a glance
-| Pair | Runs | Mean win rate | Range of run averages | Beats 0.75? |
+
+## Headline results
+
+| Pair | Period | Runs | Mean win rate | Range |
 |---|---|---|---|---|
-| 109-118 | 5 | 0.838 | 0.834–0.840 | Every run |
-| 0-1 | 6 | 0.627 | 0.556–0.692 | Never |
+| (109, 118) | Oct 20–30, 2026 | 11 | 0.840 | 0.834–0.845 |
+| (0, 1) | Oct 20–27 ("broken") | 10 | 0.604 | 0.548–0.692 |
+| (0, 1) | Oct 29–30 (post-recalibration) | 2 | 0.838 | 0.833–0.842 |
 
-## Run by run
-| Run (ET) | Win, 0-1 | Win, 109-118 | Qubit 0 reads 1 | Qubit 1 reads 1 | IBM: q0 misreads 0 as 1 | IBM: q1 misreads 0 as 1 |
-|---|---|---|---|---|---|---|
-| *Healthy* | *~0.85* | *~0.85* | *0.50* | *0.50* | *~1%* | *~1%* |
-| Oct 19, 11:31 PM | 0.631 | | **0.68** | 0.58 | 0.3% | 0.6% |
-| Oct 19, 11:39 PM | 0.637 | 0.840 | **0.65** | 0.58 | 0.3% | 0.6% |
-| Oct 20, 10:34 PM | 0.692 | 0.837 | **0.59** | 0.56 | 1.2% | 0.7% |
-| Oct 21, 3:00 AM | 0.670 | 0.840 | **0.61** | 0.56 | 0.05% | **70%** |
-| Oct 22, 3:00 AM | 0.574 | 0.840 | **0.82** | 0.47 | 0.6% | 0.1% |
-| Oct 23, 3:00 AM | 0.556 | 0.834 | **0.84** | 0.48 | 1.0% | 0.3% |
+Pair (109, 118) beat the classical bound on every run. Pair (0, 1) never did
+during its "broken" period. Then, after IBM recalibrated the device, posted
+0.833 and 0.842, statistically indistinguishable from the control pair.
 
-- No idea why IBM reported qubit 1 misreading 0 as 1 on Oct,21 70% of time, assuming some kind of error.
-- Qubit 0 reads 1 too often in every run, and pair 0-1's win rate drops as the bias grows.
-- IBM's calibration (the one in effect at each run) reported qubit 0 as near-perfect every time.
-- Pair 109-118's qubits read 1 between 0.47 and 0.51 in every run.
+## Rough data visualization (tried to do it using mathplotlib but could not get it to look right)
 
-## How the finding evolved
-| Date | Hypothesis | Evidence | Status |
-|---|---|---|---|
-| Oct 19 | Pair 0-1 underperforms its calibration | ~0.63 on hardware vs ~0.82 in a noisy simulation | Confirmed |
-| Oct 21 | Qubit 1's readout is the cause | Live calibration showed qubit 1 misreading 69% of 0s; predicted ~0.56, Oct 22 measured 0.574 | Rejected: the calibration in effect before the Oct 22 run had qubit 1 healthy, so must've been bad timing |
-| Oct 23 | Qubit 0 is biased toward reading 1 | Qubit 0 reads 1 59–84% of the time in every run; win rate tracks it | Current |
+Nightly mean win rates — `o` = pair (0, 1), `#` = pair (109, 118),
+`*` = both pairs in the same cell. The quantum ideal, 0.854, sits just
+above the 0.84 band.
 
-## Open questions
-- I feel like I am missing something through naivety so I need to figure out what I am missing.
-- Is qubit 0's bias in readout, or in the state before measurement? Next step: readout-test circuits in every run.
-- A rough readout-only estimate leaves about 0.05 of the drop unexplained. Two-qubit gate error?
-- How fast does the bias drift? IBM's roughly daily calibrations can't resolve it (too much change between calibrations to predict).
+    Oct 20  21  22  23  24  25  26  27  28  29  30
+    0.90 |
+    0.88 |
+    0.86 |
+    0.84 | #   #   #   #   #   #   #   #       *   *
+    0.82 |
+    0.80 |
+    0.78 |
+    0.76 |
+    0.75 |- - - - - - - - - - - - - - - - - - - - - - -  classical bound
+    0.74 |
+    0.72 |
+    0.70 |
+    0.68 |     o
+    0.66 |
+    0.64 | o
+    0.62 |
+    0.60 |
+    0.58 |         o       o       o
+    0.56 |             o       o
+    0.54 |                             o
+
+| Night (Oct 2026) | Pair (0, 1) | Pair (109, 118) |
+|---|---|---|
+| 20 | 0.634 | 0.840 |
+| 21 | 0.681 | 0.839 |
+| 22 | 0.574 | 0.840 |
+| 23 | 0.556 | 0.834 |
+| 24 | 0.571 | 0.843 |
+| 25 | 0.568 | 0.840 |
+| 26 | 0.588 | 0.845 |
+| 27 | 0.548 | 0.834 |
+| 28 | no run | no run |  (internet out)
+| 29 | 0.833 | 0.840 |
+| 30 | 0.842 | 0.840 |
+
+(Oct 20–21 nights average two jobs; all other nights are single jobs of
+16,000 shots per pair.)
+
+## What the data establishes — and what it doesn't
+
+Established:
+
+- The fault is localized to qubit 0. Its measured ones-rate rose from ≈ 0.67
+  on Oct 20 to 0.88 by Oct 27 while the win rate fell in step. On the
+  post-recalibration runs the "ones-rate" is 0.49 and the win rate is back at
+  ≈ 0.84.
+- IBM's own runtime calibrations never described it: they reported qubit 0's
+  readout errors as small (≈ 1%) and near-symmetric all week, which predicts
+  a win rate of ≈ 0.84 every night. Qubit 0's counts imply an effective
+  0→1 asymmetry of roughly 0.76.
+- The control pair rules out device-wide erros (same nights and same backend).
+
+Not yet identified:
+
+- The fridge-level physical cause is inside IBM and not knowable from
+  outside.
+- If the fault ever recurs, three circuits settle the stage in one session:
+  prepare |0⟩ and measure, prepare |1⟩ and measure (the true flip rates,
+  model-free), and a no-entanglement single-qubit marginal probe.
+
+
+## My Verdict
+
+ - The true error of qubit 0 in ibm_kingston can be measured, but the mechanism
+   and the physical cause of the error is unestablished in this experiment.
 
 ## How it runs
-| When | Script | What it does |
-|---|---|---|
-| 3:00 AM | `daily_chsh.py` | Runs both pairs in one job, sends a push notification |
-| 4:00 AM | `collect.py` | Saves counts, run time, physical qubits and run-time calibration to `data/raw/` |
-| 4:00 AM | `build_table.py` | Rebuilds `data/runs.csv` from the raw files |
-| Anytime | `lean.py`, `calib.py` | Lean of one job; IBM's current calibration |
 
-Data: [`data/runs.csv`](data/runs.csv), one row per job per circuit.
+A Raspberry Pi submits the job at 03:00, collects results at 04:00, and syncs
+this repo at 04:05 (US Eastern). See `AUTOMATED_PIPELINE.md` and `crontab.txt`.
+
+- `daily_chsh.py` — builds and submits the 8 circuits, logs a summary row
+- `collect.py` — sweeps finished jobs, saves raw counts + calibration snapshots to `data/raw/`
+- `build_table.py` — rebuilds `data/runs.csv` from the raw files
+- `data/runs.csv` — the canonical dataset (one row per circuit)
+- `daily_results.csv` — early summary log, superseded by `data/runs.csv`; kept for history
 
 Setup: Python, `qiskit`, `qiskit-ibm-runtime`, and a free IBM Quantum account with 10 free minutes a month (average 11s per job).
+
+## Other notes
+
+- **Oct 28, 2026 is missing.** The Pi's internet connection failed overnight
+  (Spectrum scheduled maintenance) and the 3 AM submission never happened.
+- The Oct 29 job waited ~9 hours in IBM's queue and ran at 11:57 AM; the
+  submission script died during the wait, but the 04:00 collector recovered
+  the finished job the following night. No data lost.
+- I have not yet taken a formal linear-algebra course, so I did most of the
+  learning for this using Mary Boas's "Mathematical Methods in the Physical Sciences"
+  and IBM's quantum documentations. AKA, this is not an expert-level experiment and
+  was more for my own educational value.
+
+## License
+
+MIT — see `LICENSE`.
