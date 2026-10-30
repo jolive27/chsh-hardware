@@ -1,4 +1,4 @@
-# CHSH Bell test on IBM quantum hardware
+# CHSH Bell test on IBM quantum hardware (Updated as of Oct. 30, 2026)
 
 I run the CHSH game from my raspberry pi every night using cron on IBM's `ibm_kingston`, on two qubit pairs with help from IBM's own documentation.
 
@@ -25,7 +25,7 @@ Pair (109, 118) beat the classical bound on every run. Pair (0, 1) never did
 during its "broken" period. Then, after IBM recalibrated the device, posted
 0.833 and 0.842, statistically indistinguishable from the control pair.
 
-## Rough data visualization (tried to do it using mathplotlib but could not get it to look right)
+## Rough data visualization (tried to do it using matplotlib but could not get it to look right)
 
 Nightly mean win rates — `o` = pair (0, 1), `#` = pair (109, 118),
 `*` = both pairs in the same cell. The quantum ideal, 0.854, sits just
@@ -96,7 +96,7 @@ Not yet identified:
 ## My Verdict
 
  - The true error of qubit 0 in ibm_kingston can be measured, but the mechanism
-   and the physical cause of the error is unestablished in this experiment.
+   and the physical cause of the error are unestablished in this experiment.
 
 ## How it runs
 
