@@ -31,7 +31,7 @@ Nightly mean win rates — `o` = pair (0, 1), `#` = pair (109, 118),
 `*` = both pairs in the same cell. The quantum ideal, 0.854, sits just
 above the 0.84 band.
 
-    Oct 20  21  22  23  24  25  26  27  28  29  30
+    Oct   20  21  22  23  24  25  26  27  28  29  30
     0.90 |
     0.88 |
     0.86 |
