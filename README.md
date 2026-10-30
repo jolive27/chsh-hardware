@@ -2,7 +2,7 @@
 
 I run the CHSH game from my raspberry pi every night using cron on IBM's `ibm_kingston`, on two qubit pairs with help from IBM's own documentation.
 
-The two pairs chosen (0, 1) and (109, 118) turned to be the real experiment: 109-118 stayed healthy the whole time (picked from IBM's own calibration data at the start), 0-1 was "broken" for a week in a way that could be diagnosed from IBM's own data. It then recovered after recalibration.
+The two pairs chosen (0, 1) and (109, 118) turned to be the real experiment: 109-118 stayed healthy the whole time (picked from IBM's own calibration data at the start), 0-1 was "broken" for a week in a way that could be diagnosed from my own run data. It then recovered after October 28.
 
 ## The game
 | Strategy | Best possible win rate |
@@ -63,25 +63,25 @@ above the 0.84 band.
 | 25 | 0.568 | 0.840 |
 | 26 | 0.588 | 0.845 |
 | 27 | 0.548 | 0.834 |
-| 28 | no run | no run |  (internet out)
+| 28 | no run (internet out) | no run |
 | 29 | 0.833 | 0.840 |
 | 30 | 0.842 | 0.840 |
 
-(Oct 20–21 nights average two jobs; all other nights are single jobs of
-16,000 shots per pair.)
+(Oct 20–21 nights average two jobs for pair 0-1;
+all other nights are single jobs of 16,000 shots per pair.)
 
 ## What the data establishes — and what it doesn't
 
 Established:
 
-- The fault is localized to qubit 0. Its measured ones-rate rose from ≈ 0.67
+- The fault is mostly on qubit 0. Its measured ones-rate rose from ≈ 0.67
   on Oct 20 to 0.88 by Oct 27 while the win rate fell in step. On the
   post-recalibration runs the "ones-rate" is 0.49 and the win rate is back at
   ≈ 0.84.
 - IBM's own runtime calibrations never described it: they reported qubit 0's
   readout errors as small (≈ 1%) and near-symmetric all week, which predicts
-  a win rate of ≈ 0.84 every night. Qubit 0's counts imply an effective
-  0→1 asymmetry of roughly 0.76.
+  a win rate of ≈ 0.84 every night (except Oct.21). Qubit 0's counts imply an
+  effective 0→1 asymmetry of roughly 0.76 at its worst.
 - The control pair rules out device-wide erros (same nights and same backend).
 
 Not yet identified:
@@ -118,10 +118,10 @@ Setup: Python, `qiskit`, `qiskit-ibm-runtime`, and a free IBM Quantum account wi
 - The Oct 29 job waited ~9 hours in IBM's queue and ran at 11:57 AM; the
   submission script died during the wait, but the 04:00 collector recovered
   the finished job the following night. No data lost.
-- I have not yet taken a formal linear-algebra course, so I did most of the
+- I have not yet taken a formal quantum mechanics course, so I did most of the
   learning for this using Mary Boas's "Mathematical Methods in the Physical Sciences"
-  and IBM's quantum documentations. AKA, this is not an expert-level experiment and
-  was more for my own educational value.
+  and David Griffith's "Introduction to Quantum Machanics".
+- AKA, this is not an expert-level experiment and was more for my own educational value.
 
 ## License
 
