@@ -2,7 +2,7 @@
 
 I run the CHSH game from my raspberry pi every night using cron on IBM's `ibm_kingston`, on two qubit pairs with help from IBM's own documentation.
 
-The two pairs chosen (0, 1) and (109, 118) turned to be the real experiment: 109-118 stayed healthy the whole time (picked from IBM's own calibration data at the start), 0-1 was "broken" for a week in a way that could be diagnosed from my own run data. It then recovered after October 28.
+The two pairs chosen (0, 1) and (109, 118) turned to be a fun experiment: 109-118 stayed healthy the whole time (picked from IBM's own calibration data at the start), 0-1 was "broken" for a week in a way that could be diagnosed from my own run data. It then recovered after October 28.
 
 ## The game
 | Strategy | Best possible win rate |
