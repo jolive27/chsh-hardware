@@ -120,7 +120,7 @@ Setup: Python, `qiskit`, `qiskit-ibm-runtime`, and a free IBM Quantum account wi
   the finished job the following night. No data lost.
 - I have not yet taken a formal quantum mechanics course, so I did most of the
   learning for this using Mary Boas's "Mathematical Methods in the Physical Sciences"
-  and David Griffith's "Introduction to Quantum Machanics".
+  and Griffiths "Introduction to Quantum Mechanics".
 - AKA, this is not an expert-level experiment and was more for my own educational value.
 
 ## License
